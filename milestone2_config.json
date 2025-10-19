@@ -1,0 +1,19 @@
+{
+    "Milestone2": [
+        {
+            "files": [
+                {
+                    "testcaseFile": "milestone2.json",
+                    "outputFile": "generatedOutputFile.txt",
+                    "errorLogFile": "logFile.txt"
+                }
+            ],
+            "defaultVariables": [
+                {
+                    "numberOfIterations": 10000,
+                    "readSize": 100
+                }
+            ]
+        }
+    ]
+}
