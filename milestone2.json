@@ -3,7 +3,7 @@
         {
             "testCase1": [
                 {
-                    "readTest": {"inputFileName": "top-output.txt", "numberOfIterations": 10000}
+                    "readTestTimed": {"inputFileName": "top-output.txt", "numberOfIterations": 10000}
                 }
             ]
         }

@@ -1,7 +1,7 @@
 Linux 6.14.0-33-generic (cj-QEMU-Virtual-Machine) 	10/22/2025 	_aarch64_	(4 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.42    0.02    0.26    0.03    0.00   99.28
+           0.43    0.02    0.26    0.03    0.00   99.26
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00         17          0          0
@@ -9,19 +9,19 @@ loop1             0.00         0.01         0.00         0.00        396        
 loop10            0.00         0.01         0.00         0.00        340          0          0
 loop11            0.00         0.01         0.00         0.00        359          0          0
 loop12            0.00         0.03         0.00         0.00       1166          0          0
-loop2             0.02         0.33         0.00         0.00      11947          0          0
-loop3             0.15         2.41         0.00         0.00      87012          0          0
-loop4             0.12         0.55         0.00         0.00      19910          0          0
-loop5             0.04         2.20         0.00         0.00      79476          0          0
+loop2             0.02         0.32         0.00         0.00      11947          0          0
+loop3             0.14         2.34         0.00         0.00      87012          0          0
+loop4             0.12         0.53         0.00         0.00      19910          0          0
+loop5             0.04         2.13         0.00         0.00      79476          0          0
 loop6             0.00         0.05         0.00         0.00       1891          0          0
 loop7             0.00         0.01         0.00         0.00        410          0          0
 loop8             0.00         0.04         0.00         0.00       1479          0          0
 loop9             0.00         0.01         0.00         0.00        401          0          0
-vda               3.65        73.80       108.47       500.75    2669878    3923981   18115724
+vda               3.58        71.89       105.62       486.30    2677982    3934505   18115724
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.25    0.00    0.50    0.00    0.00   99.25
+           6.57    0.00   19.44    0.00    0.00   73.99
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -41,7 +41,7 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.25    0.00    0.25    0.00    0.00   99.50
+           7.21    0.00   18.41    0.00    0.00   74.38
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -61,7 +61,27 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.00    0.00    0.25    0.00    0.00   99.75
+           6.78    0.00   18.59    0.00    0.00   74.62
+
+Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
+loop0             0.00         0.00         0.00         0.00          0          0          0
+loop1             0.00         0.00         0.00         0.00          0          0          0
+loop10            0.00         0.00         0.00         0.00          0          0          0
+loop11            0.00         0.00         0.00         0.00          0          0          0
+loop12            0.00         0.00         0.00         0.00          0          0          0
+loop2             0.00         0.00         0.00         0.00          0          0          0
+loop3             0.00         0.00         0.00         0.00          0          0          0
+loop4             0.00         0.00         0.00         0.00          0          0          0
+loop5             0.00         0.00         0.00         0.00          0          0          0
+loop6             0.00         0.00         0.00         0.00          0          0          0
+loop7             0.00         0.00         0.00         0.00          0          0          0
+loop8             0.00         0.00         0.00         0.00          0          0          0
+loop9             0.00         0.00         0.00         0.00          0          0          0
+vda               2.00         0.00        56.00         0.00          0         56          0
+
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           7.04    0.00   18.59    0.00    0.00   74.37
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -81,7 +101,7 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.00    0.00    0.00    0.00    0.00  100.00
+           6.50    0.00   19.00    0.00    0.00   74.50
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -101,7 +121,7 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.00    0.00    0.00    0.00    0.00  100.00
+           6.02    0.00   19.80    0.00    0.00   74.19
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -121,27 +141,7 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.25    0.00    0.25    0.25    0.00   99.25
-
-Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
-loop0             0.00         0.00         0.00         0.00          0          0          0
-loop1             0.00         0.00         0.00         0.00          0          0          0
-loop10            0.00         0.00         0.00         0.00          0          0          0
-loop11            0.00         0.00         0.00         0.00          0          0          0
-loop12            0.00         0.00         0.00         0.00          0          0          0
-loop2             0.00         0.00         0.00         0.00          0          0          0
-loop3             0.00         0.00         0.00         0.00          0          0          0
-loop4             0.00         0.00         0.00         0.00          0          0          0
-loop5             0.00         0.00         0.00         0.00          0          0          0
-loop6             0.00         0.00         0.00         0.00          0          0          0
-loop7             0.00         0.00         0.00         0.00          0          0          0
-loop8             0.00         0.00         0.00         0.00          0          0          0
-loop9             0.00         0.00         0.00         0.00          0          0          0
-vda               2.00         0.00        28.00         0.00          0         28          0
-
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           1.25    0.00    0.00    0.00    0.00   98.75
+           7.04    0.00   18.34    0.00    0.00   74.62
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -161,7 +161,7 @@ vda               0.00         0.00         0.00         0.00          0        
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           7.09    0.00    2.28    0.00    0.00   90.63
+           4.77    0.00   12.56    0.00    0.00   82.66
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -177,11 +177,11 @@ loop6             0.00         0.00         0.00         0.00          0        
 loop7             0.00         0.00         0.00         0.00          0          0          0
 loop8             0.00         0.00         0.00         0.00          0          0          0
 loop9             0.00         0.00         0.00         0.00          0          0          0
-vda               0.00         0.00         0.00         0.00          0          0          0
+vda               4.00         0.00       700.00         0.00          0        700          0
 
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           9.43    0.00    8.36    0.00    0.00   82.21
+           1.00    0.00    0.25    0.00    0.00   98.75
 
 Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
 loop0             0.00         0.00         0.00         0.00          0          0          0
@@ -197,6 +197,6 @@ loop6             0.00         0.00         0.00         0.00          0        
 loop7             0.00         0.00         0.00         0.00          0          0          0
 loop8             0.00         0.00         0.00         0.00          0          0          0
 loop9             0.00         0.00         0.00         0.00          0          0          0
-vda               1.00         0.00       340.00         0.00          0        340          0
+vda               0.99         0.00         3.96         0.00          0          4          0
 
 
