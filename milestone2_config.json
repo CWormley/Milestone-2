@@ -11,7 +11,7 @@
             "defaultVariables": [
                 {
                     "numberOfIterations": 10000,
-                    "readSize": 100
+                    "readSize": 512
                 }
             ]
         }

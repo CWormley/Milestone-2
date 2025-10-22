@@ -1,0 +1,16 @@
+
+Processing testCase1 commands:
+
+
+Calling: timeWrapper(readTest, top-output.txt, 1000)
+end time	iter #	avg (µs)	min (µs)	max (µs)
+13:28:26	1000	2.816459	2.291000	75.750000
+Finished readTest.
+
+
+Finished processing testcase, testCase1.
+
+
+
+
+End of unit tests

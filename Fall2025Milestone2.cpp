@@ -48,7 +48,9 @@
 #include <fstream>
 #include <string>
 #include <chrono>
-
+#include <vector>
+#include <cfloat>
+#include <iomanip> 
 #include "json.hpp"
 
 using json = nlohmann::json;
@@ -122,20 +124,23 @@ void logToFileAndConsole(std::string message) {
 *
 * @return   nothing, but output is sent to console and written to output file
 */
-void readTest(std::string inputFileName) {
+void readTest(std::string inputFileName, int readSize) {
     FILE* fp;
-    char buffer[100];
+    std::vector<char> buffer(readSize);
     int counter = 0;
 
     fp = fopen(inputFileName.c_str(), "rb");
+    if (!fp) {
+        std::cerr << "Error opening file: " << inputFileName << std::endl;
+        return;
+    }
+
     while (!feof(fp)) {
-        fread(buffer, sizeof(buffer), 1, fp);
+        fread(buffer.data(), readSize, 1, fp);
         counter++;
     }
 
     fclose(fp);
-
-    return;
 }
 
 
@@ -151,63 +156,117 @@ void readTest(std::string inputFileName) {
 *
 * @return   nothing, but output is sent to console and written to output file
 */
-void timeWrapper(std::string functionName, std::string inputFileName, int numberOfIterations) {
-    // need to write out the data for each timed iteration in the following format:
-    // 
-    // end time    iter#   avg     min     max     
-    // 
-    // <time1>         1   1.2     0.9     1.4
-    // <time2>         2   1.1     0.7     1.2
-    // ...
-    
-    // set the start time
-    auto start = std::chrono::system_clock::now();
-    std::time_t start_time = std::chrono::system_clock::to_time_t(start);
+void timeWrapper(std::string functionName, std::string inputFileName, int numberOfIterations, int readSize) {
+    using namespace std::chrono;
 
-    // output some helpful comments to the console
+    const int groupSize = 1000;  // print results every 1000 iterations
+    double totalTime = 0.0;
+    double minTime = DBL_MAX;
+    double maxTime = 0.0;
+
+    auto testStart = steady_clock::now();
+    auto startTime = system_clock::now();
+    std::time_t start_time = system_clock::to_time_t(startTime);
+
     std::cout << "Starting computation at " << std::ctime(&start_time);
+    logToFileAndConsole("end time\titer #\tavg (µs)\tmin (µs)\tmax (µs)");
 
-    // write out the head line for file
-    logToFileAndConsole("end time\titer #\t\tavg\t\tmin\t\tmax\t\t");
+    for (int i = 1; i <= numberOfIterations; ++i) {
+        auto t1 = high_resolution_clock::now();
 
-    // call the specific function to time
-    for (int i = 0; i < numberOfIterations; i++) {
-        /*
-        **  Note that none of the values are currently calculated.  This is part of the homework!
-        */
-        float average = 0.0;
-        float min = 0.0;
-        float max = 0.0;
-
-        // add more functions here
         if (functionName == "readTest") {
-            readTest(inputFileName);
+            readTest(inputFileName, readSize);
         }
 
-        // write out the current values for this iteration
-        auto curIterEnd = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = curIterEnd - start;
-        std::time_t iterEndTime = std::chrono::system_clock::to_time_t(curIterEnd);
-        std::string timeString = "00:00:00";
+        auto t2 = high_resolution_clock::now();
+        double iterTime = duration<double, std::micro>(t2 - t1).count();
 
-        logToFileAndConsole(timeString + "\t" + std::to_string(i) + "\t\t" + std::to_string(average) + "\t" + std::to_string(min) + "\t" + std::to_string(max));
+        totalTime += iterTime;
+        minTime = std::min(minTime, iterTime);
+        maxTime = std::max(maxTime, iterTime);
+
+        if (i % groupSize == 0) {
+            auto now = system_clock::now();
+            std::time_t now_c = system_clock::to_time_t(now);
+            std::tm* local = std::localtime(&now_c);
+            char timeStr[10];
+            std::strftime(timeStr, sizeof(timeStr), "%H:%M:%S", local);
+
+            double avg = totalTime / groupSize;
+
+            logToFileAndConsole(std::string(timeStr) + "\t" +
+                std::to_string(i) + "\t" +
+                std::to_string(avg) + "\t" +
+                std::to_string(minTime) + "\t" +
+                std::to_string(maxTime));
+
+            // reset for next group
+            totalTime = 0.0;
+            minTime = DBL_MAX;
+            maxTime = 0.0;
+        }
     }
 
-    logToFileAndConsole("\n\n");
+    auto testEnd = steady_clock::now();
+    double totalElapsed = duration<double>(testEnd - testStart).count();
 
-    // set the end time
-    auto finalEnd = std::chrono::system_clock::now();
-
-    std::chrono::duration<double> elapsed_seconds = finalEnd - start;
-    std::time_t end_time = std::chrono::system_clock::to_time_t(finalEnd);
-
+    std::time_t end_time = system_clock::to_time_t(system_clock::now());
     std::cout << "Finished computation at " << std::ctime(&end_time)
-        << "Elapsed time: " << elapsed_seconds.count() << "s"
-        << std::endl << std::endl;
-
-    return;
+              << "Total elapsed time: " << totalElapsed << " seconds\n";
 }
 
+void timeWrapperTimed(const std::string& functionName, const std::string& inputFileName, int readSize) {
+    using namespace std::chrono;
+
+    const int groupSize = 1000;
+    double totalTime = 0.0;
+    double minTime = DBL_MAX;
+    double maxTime = 0.0;
+    int iter = 0;
+
+    auto start = steady_clock::now();
+
+    // Run for ~10 seconds
+    while (duration_cast<seconds>(steady_clock::now() - start).count() < 10) {
+        auto t1 = high_resolution_clock::now();
+        readTest(inputFileName, readSize);
+        auto t2 = high_resolution_clock::now();
+
+        double elapsed = duration<double, std::micro>(t2 - t1).count();  // microseconds
+        totalTime += elapsed;
+        minTime = std::min(minTime, elapsed);
+        maxTime = std::max(maxTime, elapsed);
+        iter++;
+
+        if (iter % groupSize == 0) {
+            // Get current time for logging
+            auto now = system_clock::now();
+            std::time_t now_c = system_clock::to_time_t(now);
+            char buf[10];
+            std::strftime(buf, sizeof(buf), "%H:%M:%S", std::localtime(&now_c));
+
+            // Compute average per group
+            double avg = totalTime / groupSize;
+
+            logToFileAndConsole(
+                std::string(buf) + "\t" +
+                std::to_string(iter) + "\t" +
+                std::to_string(avg) + "\t" +
+                std::to_string(minTime) + "\t" +
+                std::to_string(maxTime)
+            );
+
+            // Reset counters for next batch
+            totalTime = 0.0;
+            minTime = DBL_MAX;
+            maxTime = 0.0;
+        }
+    }
+
+    logToFileAndConsole(
+        "Finished 10-second timed run. Total iterations: " + std::to_string(iter)
+    );
+}
 
 /**
 *
@@ -220,7 +279,7 @@ void timeWrapper(std::string functionName, std::string inputFileName, int number
 *
 * @return                   nothing, but output is sent to console and written to output file
 */
-void processTestCase(const std::string& testCaseName, const json& testCaseArray) {
+void processTestCase(const std::string& testCaseName, const json& testCaseArray, int readSize) {
     logToFileAndConsole("\nProcessing " + testCaseName + " commands:\n\n");
 
     for (size_t i = 0; i < testCaseArray.size(); ++i) {
@@ -230,18 +289,21 @@ void processTestCase(const std::string& testCaseName, const json& testCaseArray)
             const std::string& actionName = it.key();
             const json& details = it.value();
 
-            if (actionName == "readTest") {
-                // this is where additional parameters can be read from the json file (i.e., specific readsize)
+            if (actionName == "readTestTimed") {
+                const std::string& inputFileName = details["inputFileName"];
+                logToFileAndConsole("Calling: timeWrapperTimed(" + actionName + ", " + inputFileName + ")");
+                timeWrapperTimed(actionName, inputFileName, readSize);
+                logToFileAndConsole("Finished " + actionName + ".");
+            } 
+            else if (actionName == "readTest") {
                 const std::string& inputFileName = details["inputFileName"];
                 int numberOfIterations = details["numberOfIterations"];
-
-                logToFileAndConsole("Calling: timeWrapper(" + actionName + ", " + inputFileName + ", " + std::to_string(numberOfIterations) + ")\n");
-                timeWrapper(actionName, inputFileName, numberOfIterations);
+                logToFileAndConsole("Calling: timeWrapper(" + actionName + ", " + inputFileName + ", " + std::to_string(numberOfIterations) + ")");
+                timeWrapper(actionName, inputFileName, numberOfIterations, readSize);
                 logToFileAndConsole("Finished " + actionName + ".");
-            }
+            } 
             else {
-                // default - don't know this command
-                logToFileAndConsole("Encountered unknown command:" + actionName + ".  Check commands in json file");
+                logToFileAndConsole("Encountered unknown command: " + actionName + ". Check commands in JSON file.");
             }
         }
     }
@@ -284,10 +346,10 @@ int main() {
     std::string errorFilePath = config["Milestone2"][0]["files"][0]["errorLogFile"];
 
     // Retrieve default numberOfIterations
-    //int numberOfIterations = config["Milestone2"][0]["defaultVariables"][0]["numberOfIterations"];
+    int numberOfIterations = config["Milestone2"][0]["defaultVariables"][0]["numberOfIterations"];
 
     // Retrieve default readsize
-    //int readSize = config["Milestone2"][0]["defaultVariables"][0]["readSize"];
+    int readSize = config["Milestone2"][0]["defaultVariables"][0]["readSize"];
 
 
     // Load the JSON testcase file
@@ -314,7 +376,7 @@ int main() {
         for (json::const_iterator it = testCase.begin(); it != testCase.end(); ++it) {
             const std::string& testCaseName = it.key();
             const json& testCaseArray = it.value();
-            processTestCase(testCaseName, testCaseArray);
+            processTestCase(testCaseName, testCaseArray, readSize);
 
         }
     }
